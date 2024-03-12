@@ -3,10 +3,10 @@ var songs = [];
 let sf = 0;
 let rp = 0;
 let duration;
-// https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main
+// https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main
 async function getSong(folder) {
     let response = await fetch(
-      `https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${folder}`
+      `https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${folder}`
     );
     let txt = await response.text();
     // console.log(typeof(txt));
@@ -35,32 +35,32 @@ async function getSong(folder) {
           songList.innerHTML +
           `<li><div class="songCard">
                                 <div class="img">
-                                    <img style="height: 36px; width: 36px; border-radius: 35px;" src="https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}/cover.jpg"
+                                    <img style="height: 36px; width: 36px; border-radius: 35px;" src="https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}/cover.jpg"
                                         alt="pic"></div>
                                 <div class="songname_author">
                                     <div class="song">${element}</div>
                                     <div class="author">Arijit Singh</div>
                                 </div>
                                 <div class="playBtn">
-                                    <img src="https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/images/play.svg" style="width: 20px; height: 20px;" alt="pic">
+                                    <img src="https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/images/play.svg" style="width: 20px; height: 20px;" alt="pic">
                                 </div>
                             </div></li>`;
     }
     Array.from(document.querySelector(".playlistBox").getElementsByTagName("li")).forEach((e) => {
         e.addEventListener("click", (event) => {
             let track =
-              `https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}` +
+              `https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}` +
               e
                 .querySelector(".songname_author")
                 .firstElementChild.innerHTML.trim() +
               ".mp3";
             if (currentSong.paused) {
                 e.querySelector(".songCard").children[2].firstElementChild.src =
-                  "https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/images/pause.svg";
+                  "https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/images/pause.svg";
                 playMusic(track);
             } else {
                 e.querySelector(".songCard").children[2].firstElementChild.src =
-                  "https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/images/play.svg";
+                  "https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/images/play.svg";
                 currentSong.pause();
             }
         });
@@ -111,7 +111,7 @@ function secondsToMinuteSeconds(seconds) {
 
 async function displayAlbums() {
     let response = await fetch(
-      `https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/songs/`
+      `https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/songs/`
     );
     let txt = await response.text();
     // console.log(typeof(txt));
@@ -127,7 +127,7 @@ async function displayAlbums() {
             let foldername = element.href.split("/").slice(-2)[0];
             // console.log(foldername);
             let info = await fetch(
-              `https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/songs/${foldername}/metadata.json`
+              `https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/songs/${foldername}/metadata.json`
             );
             let response = await info.json();
             // console.log(response);
@@ -135,7 +135,7 @@ async function displayAlbums() {
             cardContainer.innerHTML =
               cardContainer.innerHTML +
               `<div data-folder="${foldername}" class="card">
-                            <img src="https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/songs/${foldername}/cover.jpg" alt="pic">
+                            <img src="https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/songs/${foldername}/cover.jpg" alt="pic">
                             <button class="playBtn">
                                 <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24">
                                     <path
@@ -216,7 +216,7 @@ async function main() {
 
     document.querySelector(".next").addEventListener("click", async (e) => {
         let response = await fetch(
-          `https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}`
+          `https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}`
         );
         let txt = await response.text();
         let div = document.createElement("div");
@@ -241,7 +241,7 @@ async function main() {
     });
     document.querySelector(".previous").addEventListener("click", async (e) => {
         let response = await fetch(
-          `https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}`
+          `https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}`
         );
         let txt = await response.text();
         let div = document.createElement("div");
@@ -371,7 +371,7 @@ async function main() {
         // console.log(e, e.target);
         if (rp == 1) {
             let response = await fetch(
-              `https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}`
+              `https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}`
             );
             let txt = await response.text();
             let div = document.createElement("div");
@@ -396,7 +396,7 @@ async function main() {
         }
         else if (sf == 1) {
             let response = await fetch(
-              `https://raw.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}`
+              `https://gist.githubusercontent.com/SinghIsWriting/MelodyBox-Your-Music-Library/main/assets/${currentFolder}`
             );
             let txt = await response.text();
             let div = document.createElement("div");
