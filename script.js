@@ -6,8 +6,9 @@ let duration;
 // https://github.com/SinghIsWriting/MelodyBox-Your-Music-Library/blob/main
 async function getSong(folder) {
     let response = await fetch(`assets/${folder}`);
+    console.log(response);
     let txt = await response.text();
-    // console.log(typeof(txt));
+    console.log(typeof(txt), txt);
     let div = document.createElement("div");
     div.innerHTML = txt;
     songs = [];
