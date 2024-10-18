@@ -3,6 +3,7 @@ var songs = [];
 let sf = 0;
 let rp = 0;
 let duration;
+// https://github.com/SinghIsWriting/MelodyBox-Your-Music-Library/blob/main
 async function getSong(folder) {
     let response = await fetch(`./assets/${folder}`);
     let txt = await response.text();
@@ -28,7 +29,9 @@ async function getSong(folder) {
     for (let index = 0; index < songs.length; index++) {
         let element = replaceExt(songs[index].split(currentFolder)[1]);
         // console.log(element.endsWith(".mp3"));
-        songList.innerHTML = songList.innerHTML + `<li><div class="songCard">
+        songList.innerHTML =
+          songList.innerHTML +
+          `<li><div class="songCard">
                                 <div class="img">
                                     <img style="height: 36px; width: 36px; border-radius: 35px;" src="./assets/${currentFolder}/cover.jpg"
                                         alt="pic"></div>
@@ -392,26 +395,6 @@ async function main() {
             }, 2000);
         }
     });
-
-    // document.querySelector(".libPlus").getElementsByTagName("span").innerHTML = currentFolder.split("/").slice(-2)[0];
-
-    // document.querySelector(".play").addEventListener("click", () => {
-    //     console.log("play btn is clicked!");
-    //     if (audio.paused) {
-    //         document.querySelector(".play").innerHTML = `<button class="playbtn" style="--button-size: 32px;"><svg style="height: 22px; width: 22px;" data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 16 16"><path d="M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z"></path></svg></button>`;
-    //         audio.play().catch((err) => {
-    //             console.log("Unable to play song...", err);
-    //         });
-    //     } else {
-    //         console.log("pause btn is clicked!");
-    //         document.querySelector(".play").innerHTML = `<button class="pausebtn" aria-label="Play" data-testid="control-button-playpause"
-    //                         style="--button-size: 32px;"><svg style="height: 22px; width: 22px;" data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 16 16">
-    //                             <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z">
-    //                             </path>
-    //                         </svg></button>`;
-    //         audio.pause();
-    //     }
-    // });
 
 }
 
