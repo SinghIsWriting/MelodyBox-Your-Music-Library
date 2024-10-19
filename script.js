@@ -6,21 +6,35 @@ let duration;
 // https://github.com/SinghIsWriting/MelodyBox-Your-Music-Library/blob/main
 // https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/
 async function getSong(folder) {
-    let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${folder}`);
-    console.log(response);
-    let txt = await response.text();
-    console.log(typeof(txt), txt);
-    let div = document.createElement("div");
-    div.innerHTML = txt;
-    songs = [];
-    let as = div.getElementsByTagName("a");
-    // console.log(as);
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index];
-        if (element.href.endsWith(".mp3")) {
-            songs.push(element.href);
+    // let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${folder}`);
+    // // console.log(response);
+    // let jsonResponse = await response.json();
+    // console.log(typeof(jsonResponse), jsonResponse);
+    // // let div = document.createElement("div");
+    // // div.innerHTML = txt;
+    // songs = [];
+    // // let as = div.getElementsByTagName("a");
+    // // console.log(as);
+    // for (let index = 0; index < as.length; index++) {
+    //     const element = as[index];
+    //     if (element.href.endsWith(".mp3")) {
+    //         songs.push(element.href);
+    //     }
+    // }
+
+    const response = await fetch('./test.json');
+    const data = await response.text();
+    const songLst = JSON.parse(data).romantic;
+    // console.log(songLst);
+    const songs = [];
+    for (let index = 0; index < songLst.length; index++) {
+        const element = songLst[index];
+        if(element['html_url'].endsWith(".mp3")){
+            songs.push(element['html_url']);
         }
     }
+    // console.log(songs);
+
     let play_name = Array.from(currentFolder.split("/").slice(-2)[0])[0].toLocaleUpperCase() + Array.from(currentFolder.split("/").slice(-2)[0]).slice(1).join("");
     document.querySelector(".play_name").innerHTML = decodeURI(play_name);
 
@@ -105,43 +119,64 @@ function secondsToMinuteSeconds(seconds) {
 }
 
 async function displayAlbums() {
-    let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/songs/`);
-    let txt = await response.text();
-    // console.log(typeof(txt));
-    let div = document.createElement("div");
-    div.innerHTML = txt;
-    let anchors = div.getElementsByTagName("a");
+    // let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/songs/`);
+    // let txt = await response.text();
+    // // console.log(typeof(txt));
+    // let div = document.createElement("div");
+    // div.innerHTML = txt;
+    // let anchors = div.getElementsByTagName("a");
     // console.log(anchors);
-    let array = Array.from(anchors);
+
+    let array = ["All Out 80s","All Out 90s","Bollywood","Kailash Kher","Latest Hit","moments","New Music","Pop Songs","Punjabi Songs","romantic"];
     for (let index = 0; index < array.length; index++) {
-        const element = array[index];
+        // const element = array[index];
         // console.log(element.href);
-        if (element.href.includes("/songs/")) {
-            let foldername = element.href.split("/").slice(-2)[0];
-            // console.log(foldername);
-            let info = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/songs/${foldername}/metadata.json`);
-            let response = await info.json();
-            // console.log(response);
-            let cardContainer = document.querySelector(".cards");
-            cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${foldername}" class="card">
-                            <img src="assets/songs/${foldername}/cover.jpg" alt="pic">
-                            <button class="playBtn">
-                                <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24">
-                                    <path
-                                        d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
-                                    </path>
-                                </svg>
-                            </button>
-                            <h4><a href="/">${response.title}</a></h4>
-                            <h5><a href="/">${response.description}</a></h5>
-                        </div>`;
-        }
+        // if (element.href.includes("/songs/")) {
+            // let foldername = element.href.split("/").slice(-2)[0];
+            // // console.log(foldername);
+            // let info = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/songs/${foldername}/metadata.json`);
+            // let response = await info.json();
+            // // console.log(response);
+            // let cardContainer = document.querySelector(".cards");
+            // cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${foldername}" class="card">
+            //                 <img src="assets/songs/${foldername}/cover.jpg" alt="pic">
+            //                 <button class="playBtn">
+            //                     <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24">
+            //                         <path
+            //                             d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
+            //                         </path>
+            //                     </svg>
+            //                 </button>
+            //                 <h4><a href="/">${response.title}</a></h4>
+            //                 <h5><a href="/">${response.description}</a></h5>
+            //             </div>`;
+        // }
+
+        let element = array[index];
+        let cardContainer = document.querySelector(".cards");
+        cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${element}" class="card">
+                        <img src="assets/songs/${element}/cover.jpg" alt="pic">
+                        <button class="playBtn">
+                            <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24">
+                                <path
+                                    d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
+                                </path>
+                            </svg>
+                        </button>
+                        <h4><a href="/">Romance</a></h4>
+                        <h5><a href="/">Listen your some beautiful romantic songs</a></h5>
+                    </div>`;
     }
     Array.from(document.getElementsByClassName("card")).forEach((e) => {
         // console.log(e, e.target);
         e.addEventListener("click", async item => {
+            // // console.log(item, item.currentTarget.dataset.folder);
+            // currentFolder = `songs/${item.currentTarget.dataset.folder}/`;
+            // songs = await getSong(currentFolder);
+            // currentSong.src = songs[0];
+
             // console.log(item, item.currentTarget.dataset.folder);
-            currentFolder = `songs/${item.currentTarget.dataset.folder}/`;
+            currentFolder = `songs/romantic/`;
             songs = await getSong(currentFolder);
             currentSong.src = songs[0];
             
@@ -204,18 +239,31 @@ async function main() {
     });
 
     document.querySelector(".next").addEventListener("click", async (e) => {
-        let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${currentFolder}`);
-        let txt = await response.text();
-        let div = document.createElement("div");
-        div.innerHTML = txt;
-        let as = div.getElementsByTagName("a");
-        let allsongs = [];
-        for (let index = 0; index < as.length; index++) {
-            const element = as[index];
-            if (element.href.endsWith(".mp3")) {
-                allsongs.push(decodeURI(element.href));
+        // let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${currentFolder}`);
+        // let txt = await response.text();
+        // let div = document.createElement("div");
+        // div.innerHTML = txt;
+        // let as = div.getElementsByTagName("a");
+        // let allsongs = [];
+        // for (let index = 0; index < as.length; index++) {
+        //     const element = as[index];
+        //     if (element.href.endsWith(".mp3")) {
+        //         allsongs.push(decodeURI(element.href));
+        //     }
+        // }
+
+        const response = await fetch('./test.json');
+        const data = await response.text();
+        const songLst = JSON.parse(data).romantic;
+        // console.log(songLst);
+        const allsongs = [];
+        for (let index = 0; index < songLst.length; index++) {
+            const element = songLst[index];
+            if(element['html_url'].endsWith(".mp3")){
+                allsongs.push(element['html_url']);
             }
         }
+
         let index = allsongs.indexOf(currentSong.src);
         // console.log(currentSong.src);
         if (index < allsongs.length - 1) {
@@ -227,18 +275,31 @@ async function main() {
         }
     });
     document.querySelector(".previous").addEventListener("click", async (e) => {
-        let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${currentFolder}`);
-        let txt = await response.text();
-        let div = document.createElement("div");
-        div.innerHTML = txt;
-        let as = div.getElementsByTagName("a");
-        let allsongs = [];
-        for (let index = 0; index < as.length; index++) {
-            const element = as[index];
-            if (element.href.endsWith(".mp3")) {
-                allsongs.push(decodeURI(element.href));
+        // let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${currentFolder}`);
+        // let txt = await response.text();
+        // let div = document.createElement("div");
+        // div.innerHTML = txt;
+        // let as = div.getElementsByTagName("a");
+        // let allsongs = [];
+        // for (let index = 0; index < as.length; index++) {
+        //     const element = as[index];
+        //     if (element.href.endsWith(".mp3")) {
+        //         allsongs.push(decodeURI(element.href));
+        //     }
+        // }
+
+        const response = await fetch('./test.json');
+        const data = await response.text();
+        const songLst = JSON.parse(data).romantic;
+        // console.log(songLst);
+        const allsongs = [];
+        for (let index = 0; index < songLst.length; index++) {
+            const element = songLst[index];
+            if(element['html_url'].endsWith(".mp3")){
+                allsongs.push(element['html_url']);
             }
         }
+
         let index = allsongs.indexOf(currentSong.src);
         // console.log(currentSong.src);
         if (index > 0) {
@@ -355,18 +416,31 @@ async function main() {
     currentSong.addEventListener("ended", async (e) => {
         // console.log(e, e.target);
         if (rp == 1) {
-            let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${currentFolder}`);
-            let txt = await response.text();
-            let div = document.createElement("div");
-            div.innerHTML = txt;
-            let as = div.getElementsByTagName("a");
-            let allsongs = [];
-            for (let index = 0; index < as.length; index++) {
-                const element = as[index];
-                if (element.href.endsWith(".mp3")) {
-                    allsongs.push(decodeURI(element.href));
+            // let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${currentFolder}`);
+            // let txt = await response.text();
+            // let div = document.createElement("div");
+            // div.innerHTML = txt;
+            // let as = div.getElementsByTagName("a");
+            // let allsongs = [];
+            // for (let index = 0; index < as.length; index++) {
+            //     const element = as[index];
+            //     if (element.href.endsWith(".mp3")) {
+            //         allsongs.push(decodeURI(element.href));
+            //     }
+            // }
+
+            const response = await fetch('./test.json');
+            const data = await response.text();
+            const songLst = JSON.parse(data).romantic;
+            console.log(songLst);
+            const allsongs = [];
+            for (let index = 0; index < songLst.length; index++) {
+                const element = songLst[index];
+                if(element['html_url'].endsWith(".mp3")){
+                    allsongs.push(element['html_url']);
                 }
             }
+
             let idx = allsongs.indexOf(currentSong.src);
             // console.log(allsongs.indexOf(currentSong.src));
             setTimeout(() => {
@@ -378,18 +452,31 @@ async function main() {
             }, 2000);
         }
         else if (sf == 1) {
-            let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${currentFolder}`);
-            let txt = await response.text();
-            let div = document.createElement("div");
-            div.innerHTML = txt;
-            let as = div.getElementsByTagName("a");
-            let allsongs = [];
-            for (let index = 0; index < as.length; index++) {
-                const element = as[index];
-                if (element.href.endsWith(".mp3")) {
-                    allsongs.push(decodeURI(element.href));
+            // let response = await fetch(`https://api.github.com/repos/SinghIsWriting/MelodyBox-Your-Music-Library/contents/assets/${currentFolder}`);
+            // let txt = await response.text();
+            // let div = document.createElement("div");
+            // div.innerHTML = txt;
+            // let as = div.getElementsByTagName("a");
+            // let allsongs = [];
+            // for (let index = 0; index < as.length; index++) {
+            //     const element = as[index];
+            //     if (element.href.endsWith(".mp3")) {
+            //         allsongs.push(decodeURI(element.href));
+            //     }
+            // }
+
+            const response = await fetch('./test.json');
+            const data = await response.text();
+            const songLst = JSON.parse(data).romantic;
+            console.log(songLst);
+            const allsongs = [];
+            for (let index = 0; index < songLst.length; index++) {
+                const element = songLst[index];
+                if(element['html_url'].endsWith(".mp3")){
+                    allsongs.push(element['html_url']);
                 }
             }
+
             let idx = Math.floor(Math.random() * allsongs.length);
             // console.log(idx, allsongs.length);
             setTimeout(() => {
